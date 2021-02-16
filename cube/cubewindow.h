@@ -1,11 +1,11 @@
 #ifndef CUBEWINDOW_H
 #define CUBEWINDOW_H
 
-#include <QPushButton>
 #include <QOpenGLShaderProgram>
-#include <QOpenGLFunctions>
 #include <QColorDialog>
 #include "openglwindow.h"
+#include "cube.h"
+#include "cubeedges.h"
 
 class CubeWindow : public OpenGLWindow
 {
@@ -15,11 +15,8 @@ public:
     void mousePressEvent(QMouseEvent *e) override;
     void mouseReleaseEvent(QMouseEvent *e) override;
 
-
     void initialize() override;
     void render() override;
-
-    void setColor(const QColor& col);
 
     ~CubeWindow();
 
@@ -30,15 +27,13 @@ private:
 
     QOpenGLShaderProgram *m_program = nullptr;
 
-    constexpr static const unsigned vertexCount = 18;       /* for cube consists of 3 trianglestrip */
-    constexpr static const unsigned dim = 3;
-
-    std::array<GLfloat, vertexCount * dim> vertices_;
-    std::array<GLfloat, vertexCount * 3> colors_;
+    Cube cube {1.0f};
+    CubeEdges edges {1.0f};
 
     QColorDialog* c_dialog;
 
-    void setVertices();
+    void renderSurfaces();
+    void renderEdges();
 
     QVector2D mousePressPosition;
     QVector3D rotationAxis;
