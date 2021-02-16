@@ -4,6 +4,7 @@
 #include <QPushButton>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
+#include <QColorDialog>
 #include "openglwindow.h"
 
 class CubeWindow : public OpenGLWindow
@@ -29,7 +30,15 @@ private:
 
     QOpenGLShaderProgram *m_program = nullptr;
 
-    QColor color;
+    constexpr static const unsigned vertexCount = 18;       /* for cube consists of 3 trianglestrip */
+    constexpr static const unsigned dim = 3;
+
+    std::array<GLfloat, vertexCount * dim> vertices_;
+    std::array<GLfloat, vertexCount * 3> colors_;
+
+    QColorDialog* c_dialog;
+
+    void setVertices();
 
     QVector2D mousePressPosition;
     QVector3D rotationAxis;
