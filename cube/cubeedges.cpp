@@ -32,3 +32,11 @@ void CubeEdges::setColor(const QColor&)
         colors_[i + 2] = 0.0f;
     }
 }
+
+
+void CubeEdges::drawArrays()
+{
+    for (auto i = 0; i <= 12; i += 4){
+        glDrawArrays(GL_LINE_LOOP, i, 4);
+    }
+}

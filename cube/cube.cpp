@@ -45,3 +45,11 @@ void Cube::setColor(const QColor& color)
         colors_[i + 2] = color.blueF() - i * coefficient;
     }
 }
+
+
+void Cube::drawArrays()
+{
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 10);
+    glDrawArrays(GL_TRIANGLE_STRIP, 10, 4);
+    glDrawArrays(GL_TRIANGLE_STRIP, 14, 4);
+}

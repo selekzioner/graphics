@@ -11,6 +11,7 @@ public:
     void setColor(const QColor& color) override;
 private:
     void setVertices() override;
+    void drawArrays() override;
 };
 
 #endif // CUBE_H

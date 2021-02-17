@@ -12,6 +12,7 @@ public:
 
 private:
     void setVertices() override;
+    void drawArrays() override;
 };
 
 #endif // CUBEEDGES_H

@@ -1,6 +1,5 @@
 #include "cubewindow.h"
 #include <QMouseEvent>
-#include <QToolButton>
 
 
 static const char *vertexShaderSource =
@@ -27,10 +26,6 @@ void CubeWindow::initialize()
     m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource);
     m_program->link();
 
-    m_posAttr = m_program->attributeLocation("posAttr");
-    Q_ASSERT(m_posAttr != -1);
-    m_colAttr = m_program->attributeLocation("colAttr");
-    Q_ASSERT(m_colAttr != -1);
     m_matrixUniform = m_program->uniformLocation("matrix");
     Q_ASSERT(m_matrixUniform != -1);
 
@@ -87,8 +82,8 @@ void CubeWindow::render()
 
     cube.setColor(c_dialog->currentColor());
 
-    renderSurfaces();
-    renderEdges();
+    cube.render(m_program);
+    edges.render(m_program);
 
     m_program->release();
 }
@@ -98,40 +93,6 @@ CubeWindow::~CubeWindow()
 {
     delete m_program;
     delete c_dialog;
-}
-
-
-void CubeWindow::renderSurfaces()
-{
-    glVertexAttribPointer(m_posAttr, 3, GL_FLOAT, GL_FALSE, 0, cube.getVertices());
-    glVertexAttribPointer(m_colAttr, 3, GL_FLOAT, GL_FALSE, 0, cube.getColors());
-
-    glEnableVertexAttribArray(m_posAttr);
-    glEnableVertexAttribArray(m_colAttr);
-
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 10);
-    glDrawArrays(GL_TRIANGLE_STRIP, 10, 4);
-    glDrawArrays(GL_TRIANGLE_STRIP, 14, 4);
-
-    glDisableVertexAttribArray(m_colAttr);
-    glDisableVertexAttribArray(m_posAttr);
-}
-
-
-void CubeWindow::renderEdges()
-{
-    glVertexAttribPointer(m_posAttr, 3, GL_FLOAT, GL_FALSE, 0, edges.getVertices());
-    glVertexAttribPointer(m_colAttr, 3, GL_FLOAT, GL_FALSE, 0, edges.getColors());
-
-    glEnableVertexAttribArray(m_posAttr);
-    glEnableVertexAttribArray(m_colAttr);
-
-    for (auto i = 0; i <= 12; i += 4){
-        glDrawArrays(GL_LINE_LOOP, i, 4);
-    }
-
-    glDisableVertexAttribArray(m_colAttr);
-    glDisableVertexAttribArray(m_posAttr);
 }
 
 
