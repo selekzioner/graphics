@@ -1,5 +1,6 @@
 #include "cubewindow.h"
 #include <QMouseEvent>
+#include <QToolButton>
 
 
 static const char *vertexShaderSource =
@@ -32,6 +33,13 @@ void CubeWindow::initialize()
     Q_ASSERT(m_colAttr != -1);
     m_matrixUniform = m_program->uniformLocation("matrix");
     Q_ASSERT(m_matrixUniform != -1);
+
+    cube.initialize();
+    edges.initialize();
+
+    c_dialog = new QColorDialog();
+    c_dialog->setOptions(QColorDialog::NoButtons);
+    c_dialog->setVisible(1);
 }
 
 
@@ -44,17 +52,11 @@ void CubeWindow::mousePressEvent(QMouseEvent *e)
 void CubeWindow::mouseReleaseEvent(QMouseEvent *e)
 {
     QVector2D diff = QVector2D(e->localPos()) - mousePressPosition;
+    QVector3D n = QVector3D(diff.y(), diff.x(), 0.0).normalized();       /* Rotation axis is perpendicular to the mouse position difference vector */
 
-    // Rotation axis is perpendicular to the mouse position difference vector
-    QVector3D n = QVector3D(diff.y(), diff.x(), 0.0).normalized();
+    qreal acc = diff.length() / 100.0;                                   /* Accelerate angular speed relative to the length of the mouse sweep */
 
-    // Accelerate angular speed relative to the length of the mouse sweep
-    qreal acc = diff.length() / 100.0;
-
-    // Calculate new rotation axis as weighted sum
-    rotationAxis = (rotationAxis * angularSpeed + n * acc).normalized();
-
-    // Increase angular speed
+    rotationAxis = (rotationAxis * angularSpeed + n * acc).normalized(); /* Calculate new rotation axis as weighted sum */
     angularSpeed += acc;
 }
 
@@ -77,50 +79,32 @@ void CubeWindow::render()
 
     m_program->setUniformValue(m_matrixUniform, matrix);
 
-    //glEnable(GL_DEPTH_TEST);
-    //glDepthFunc(GL_LESS);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
 
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
 
-    static const GLfloat vertices[]{
-        // side surfaces
-        -0.5f,  0.5f,  0.5f,
-        -0.5f, -0.5f ,  0.5f,
-         0.5f,  0.5f,  0.5f,
-         0.5f, -0.5f,  0.5f,
-         0.5f,  0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-        -0.5f,  0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f,  0.5f,  0.5f,
-        -0.5f, -0.5f,  0.5f,
+    cube.setColor(c_dialog->currentColor());
 
-        // top
-        -0.5f,  0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f, -0.5f,
-         0.5f,  0.5f, -0.5f,
+    renderSurfaces();
+    renderEdges();
 
-        // bottom
-         0.5f,  -0.5f,  0.5f,
-        -0.5f,  -0.5f,  0.5f,
-         0.5f,  -0.5f, -0.5f,
-        -0.5f,  -0.5f, -0.5f,
-    };
+    m_program->release();
+}
 
-    static GLfloat colors[sizeof(vertices)];
-    for (unsigned i = 0; i < sizeof(vertices); i += 3){
-        auto coefficient = 0.05;
-        coefficient = i % 3 == 0 ? coefficient / 10 : coefficient;
 
-        colors[i]     = color.redF() - i * coefficient;
-        colors[i + 1] = color.greenF() - i * coefficient;
-        colors[i + 2] = color.blueF() - i * coefficient;
-    }
+CubeWindow::~CubeWindow()
+{
+    delete m_program;
+    delete c_dialog;
+}
 
-    glVertexAttribPointer(m_posAttr, 3, GL_FLOAT, GL_FALSE, 0, vertices);
-    glVertexAttribPointer(m_colAttr, 3, GL_FLOAT, GL_FALSE, 0, colors);
+
+void CubeWindow::renderSurfaces()
+{
+    glVertexAttribPointer(m_posAttr, 3, GL_FLOAT, GL_FALSE, 0, cube.getVertices());
+    glVertexAttribPointer(m_colAttr, 3, GL_FLOAT, GL_FALSE, 0, cube.getColors());
 
     glEnableVertexAttribArray(m_posAttr);
     glEnableVertexAttribArray(m_colAttr);
@@ -131,20 +115,23 @@ void CubeWindow::render()
 
     glDisableVertexAttribArray(m_colAttr);
     glDisableVertexAttribArray(m_posAttr);
-
-    m_program->release();
 }
 
 
-void CubeWindow::setColor(const QColor& col)
+void CubeWindow::renderEdges()
 {
-    color = col;
-}
+    glVertexAttribPointer(m_posAttr, 3, GL_FLOAT, GL_FALSE, 0, edges.getVertices());
+    glVertexAttribPointer(m_colAttr, 3, GL_FLOAT, GL_FALSE, 0, edges.getColors());
 
+    glEnableVertexAttribArray(m_posAttr);
+    glEnableVertexAttribArray(m_colAttr);
 
-CubeWindow::~CubeWindow()
-{
-    delete m_program;
+    for (auto i = 0; i <= 12; i += 4){
+        glDrawArrays(GL_LINE_LOOP, i, 4);
+    }
+
+    glDisableVertexAttribArray(m_colAttr);
+    glDisableVertexAttribArray(m_posAttr);
 }
 
 

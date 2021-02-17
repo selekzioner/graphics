@@ -50,7 +50,7 @@
 
 #include "openglwindow.h"
 
-#include <QOpenGLContext>
+
 #include <QOpenGLPaintDevice>
 #include <QPainter>
 
