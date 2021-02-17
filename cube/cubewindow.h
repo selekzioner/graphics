@@ -32,9 +32,6 @@ private:
 
     QColorDialog* c_dialog;
 
-    void renderSurfaces();
-    void renderEdges();
-
     QVector2D mousePressPosition;
     QVector3D rotationAxis;
     qreal angularSpeed = 0;
