@@ -5,7 +5,6 @@
 class CubeEdges final: public CubicObject
 {
 public:
-    CubeEdges() = delete;
     explicit CubeEdges(GLfloat edgeLen) : CubicObject(edgeLen, 16) {}
 
     void setColor(const QColor& color) override;
