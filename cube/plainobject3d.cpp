@@ -7,7 +7,7 @@ void PlainObject3D::initialize()
 }
 
 
-void PlainObject3D::render(QOpenGLShaderProgram* program)
+void PlainObject3D::render(std::shared_ptr<QOpenGLShaderProgram>& program)
 {
     if(!is_init_) {
         initializeOpenGLFunctions();

@@ -1,5 +1,4 @@
-#ifndef CUBICOBJECT_H
-#define CUBICOBJECT_H
+#pragma once
 
 #include "plainobject3d.h"
 
@@ -16,5 +15,3 @@ public:
 protected:
     GLfloat edgeLen_;
 };
-
-#endif // CUBICOBJECT_H

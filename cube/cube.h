@@ -1,5 +1,5 @@
-#ifndef CUBE_H
-#define CUBE_H
+#pragma once
+
 #include "cubicobject.h"
 
 class Cube final: public CubicObject
@@ -13,5 +13,3 @@ private:
     void setVertices() override;
     void drawArrays() override;
 };
-
-#endif // CUBE_H
