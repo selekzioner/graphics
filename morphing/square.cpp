@@ -32,13 +32,13 @@ void Square::render(QOpenGLShaderProgram& program)
 
     program.setUniformValue("col", color_);
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glPolygonMode(GL_FRONT, GL_FILL);
     glDrawElements(GL_TRIANGLES, indices_.size(), GL_UNSIGNED_INT, nullptr);
 
     QColor lines_col  {0, 0, 0};
     program.setUniformValue("col", lines_col);
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT, GL_LINE);
     glLineWidth(4.0f);
     glDrawElements(GL_TRIANGLES, indices_.size(), GL_UNSIGNED_INT, nullptr);
 }

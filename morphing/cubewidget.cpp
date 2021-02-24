@@ -10,7 +10,7 @@ void CubeWidget::setColor(const QColor& color)
 
 void CubeWidget::setGrid(int value)
 {
-    cube.reset(new Cube(1.0f, value));
+    cube.reset(new Cube(2.0f, value));
     cube->initialize();
 }
 
@@ -26,7 +26,7 @@ void CubeWidget::initializeGL()
     initializeOpenGLFunctions();
     initShaders();
 
-    cube.reset(new Cube(1.0f, 1));
+    cube.reset(new Cube(2.0f, 1));
     cube->initialize();
 
     glClearColor(1.0f, 1.0f, 1.0f, 1000.0f);

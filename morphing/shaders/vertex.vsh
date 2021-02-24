@@ -5,13 +5,16 @@ in highp vec4 posAttr;
 
 void main()
 {
-    highp vec4 new_pos = posAttr;
+    highp vec4 transformedPos = posAttr;
 
-    new_pos.x = posAttr.x * sqrt(1.0f - ((posAttr.y * posAttr.y + posAttr.z * posAttr.z) / 2. - posAttr.y * posAttr.y * posAttr.z * posAttr.z / 3.) * morphRate);
+    transformedPos.x = posAttr.x * sqrt(1.0f - ((posAttr.y * posAttr.y + posAttr.z * posAttr.z) / 2.0f
+                                                - posAttr.y * posAttr.y * posAttr.z * posAttr.z / 3.0f) * morphRate);
 
-    new_pos.y = posAttr.y * sqrt(1.0f - ((posAttr.x * posAttr.x + posAttr.z * posAttr.z) / 2. - posAttr.x * posAttr.x * posAttr.z * posAttr.z / 3.) * morphRate);
+    transformedPos.y = posAttr.y * sqrt(1.0f - ((posAttr.x * posAttr.x + posAttr.z * posAttr.z) / 2.0f
+                                                - posAttr.x * posAttr.x * posAttr.z * posAttr.z / 3.0f) * morphRate);
 
-    new_pos.z = posAttr.z * sqrt(1.0f - ((posAttr.x * posAttr.x + posAttr.y * posAttr.y) / 2. - posAttr.x * posAttr.x * posAttr.y * posAttr.y / 3.) * morphRate);
+    transformedPos.z = posAttr.z * sqrt(1.0f - ((posAttr.x * posAttr.x + posAttr.y * posAttr.y) / 2.0f
+                                                - posAttr.x * posAttr.x * posAttr.y * posAttr.y / 3.0f) * morphRate);
 
-    gl_Position = matrix * new_pos;
+    gl_Position = matrix * transformedPos;
 }

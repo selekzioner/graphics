@@ -26,20 +26,11 @@ void Cube::initialize()
     surfaces_[3].transform(matrix);
 
     matrix.rotate(90.f, 0.f, 1.f);
-
     matrix.rotate(90.f, 1.f, 0.f);
     surfaces_[4].transform(matrix);
 
     matrix.rotate(180.f, 1.f, 0.f);
     surfaces_[5].transform(matrix);
-
-    const QVector3D scale = { 2.0, 2.0, 2.0 };
-    QMatrix4x4 scale_mat;
-    scale_mat.scale(scale);
-
-    for (auto& surface : surfaces_){
-        surface.transform(scale_mat);
-    }
 }
 
 
