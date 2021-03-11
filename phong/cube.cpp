@@ -14,7 +14,6 @@ void Cube::initialize()
     for (auto& surface : surfaces_) {
         surface.initialize();
     }
-
     QMatrix4x4 matrix;
     matrix.rotate(90.f, 0.f, 1.f);
     surfaces_[1].transform(matrix);

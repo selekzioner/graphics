@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1302</width>
+    <height>871</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QSlider" name="GridSlider">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>790</y>
+      <width>371</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>5</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="MorphSlider">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>790</y>
+      <width>371</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>10</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="NumberSlider">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>790</y>
+      <width>371</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>800</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>810</y>
+      <width>211</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Grid Step</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>810</y>
+      <width>201</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Morph Rate</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>1000</x>
+      <y>810</y>
+      <width>201</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Number Of Cubes</string>
+    </property>
+   </widget>
+   <widget class="CubeWidget" name="cubeWidget">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>10</y>
+      <width>1181</width>
+      <height>761</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <widget class="QLabel" name="FPSlabel">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>311</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"> FPSLabel { color: red; background-color: white }</string>
+     </property>
+     <property name="text">
+      <string>FPS: </string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QColorDialog" name="objColorDialog" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>120</width>
+      <height>80</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1302</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuColors">
+    <property name="title">
+     <string>Colors</string>
+    </property>
+    <addaction name="actionObject_Color"/>
+    <addaction name="actionLight_1_Color"/>
+    <addaction name="actionLight_2_Color"/>
+   </widget>
+   <addaction name="menuColors"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionObject_Color">
+   <property name="text">
+    <string>Object Color</string>
+   </property>
+  </action>
+  <action name="actionLight_1_Color">
+   <property name="text">
+    <string>Light 1 Color</string>
+   </property>
+  </action>
+  <action name="actionLight_2_Color">
+   <property name="text">
+    <string>Light 2 Color</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CubeWidget</class>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">cubewidget.h</header>
+   <container>1</container>
+   <slots>
+    <signal>updateFPS(QString)</signal>
+    <slot>setColor(QColor)</slot>
+    <slot>setGrid(int)</slot>
+    <slot>setMorph(int)</slot>
+    <slot>setNumberOfCubes(int)</slot>
+    <slot>setMorphFactorI(int)</slot>
+    <slot>showDialog()</slot>
+    <slot>setCurrentFace(int)</slot>
+    <slot>setFaceMode()</slot>
+    <slot>setEdgeMode()</slot>
+    <slot>makeNewGrid(int)</slot>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>QColorDialog</class>
+   <extends>QWidget</extends>
+   <header location="global">qcolordialog.h</header>
+   <container>1</container>
+   <slots>
+    <signal>currentColorChanged(QColor)</signal>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>GridSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cubeWidget</receiver>
+   <slot>setGrid(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>245</x>
+     <y>750</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>650</x>
+     <y>411</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MorphSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cubeWidget</receiver>
+   <slot>setMorph(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>645</x>
+     <y>750</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>650</x>
+     <y>411</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>NumberSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cubeWidget</receiver>
+   <slot>setNumberOfCubes(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1045</x>
+     <y>750</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>650</x>
+     <y>411</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cubeWidget</sender>
+   <signal>updateFPS(QString)</signal>
+   <receiver>FPSlabel</receiver>
+   <slot>setText(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>650</x>
+     <y>411</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>275</x>
+     <y>61</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionObject_Color</sender>
+   <signal>triggered()</signal>
+   <receiver>objColorDialog</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1329</x>
+     <y>70</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>objColorDialog</sender>
+   <signal>currentColorChanged(QColor)</signal>
+   <receiver>cubeWidget</receiver>
+   <slot>setColor(QColor)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1329</x>
+     <y>70</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>650</x>
+     <y>411</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

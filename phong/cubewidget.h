@@ -3,11 +3,15 @@
 #include <QOpenGLWidget>
 #include <QTime>
 #include "cube.h"
-#include <QLabel>
 
 
 class CubeWidget final : public QOpenGLWidget, protected QOpenGLFunctions
 {
+    Q_OBJECT
+
+public:
+    explicit CubeWidget(QWidget* parent);
+
 public slots:
     void setColor(const QColor& color);
 
@@ -16,8 +20,8 @@ public slots:
 
     void setNumberOfCubes(int value);
 
-public:
-    CubeWidget(QLabel& label);
+signals:
+    void updateFPS(const QString& info);
 
 private:
     void initializeGL() override;
@@ -26,9 +30,7 @@ private:
     void initShaders();
     void initCubes();
 
-    QMatrix4x4 setMVPMatrix(const QVector3D& pos, int frame);
-
-    QLabel& label_;
+    QMatrix4x4 setMVPMatrix(const QVector3D& pos);
 
     QOpenGLShaderProgram m_program_;
 

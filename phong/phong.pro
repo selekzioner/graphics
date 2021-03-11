@@ -14,7 +14,9 @@ SOURCES += \
     cube.cpp \
     cubewidget.cpp \
     main.cpp \
-    square.cpp
+    mainwindow.cpp \
+    square.cpp \
+    transformable.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -25,8 +27,10 @@ HEADERS += \
     cube.h \
     cubewidget.h \
     globject.h \
+    mainwindow.h \
     plainglobject.h \
-    square.h
+    square.h \
+    transformable.h
 
 RESOURCES += \
     shaders.qrc
@@ -34,3 +38,6 @@ RESOURCES += \
 DISTFILES += \
     vertex.vsh \
     fragment.fsh
+
+FORMS += \
+    mainwindow.ui

@@ -1,9 +1,8 @@
 #include "cubewidget.h"
 #include <QMouseEvent>
-#include <QVBoxLayout>
 
 
-CubeWidget::CubeWidget(QLabel& label) : label_(label) {}
+CubeWidget::CubeWidget(QWidget* parent) : QOpenGLWidget(parent) {}
 
 
 void CubeWidget::setColor(const QColor& color)
@@ -92,31 +91,31 @@ void CubeWidget::paintGL()
 
     for (auto i = 0; i < cols; ++i){
         for (auto j = 0; j < rows; ++j){
-            m_program_.setUniformValue("matrix",
-                       setMVPMatrix({ - 1.5f * cubeSize_ * rows / 2 + i * 1.5f * cubeSize_,
-                                      -4.0f + 0.5f * j, - 10.5f + -j * 3.f * cubeSize_}, frame_));
+            m_program_.setUniformValue("matrix", setMVPMatrix({ - 1.5f * cubeSize_ *
+                                        rows / 2 + i * 1.5f * cubeSize_, -4.0f + 1.5f * j, - 12.5f + -j * 1.5f * cubeSize_}));
 
             cubes_[i * rows + j]->setColor(color_);
             cubes_[i * rows + j]->render(m_program_);
         }
     }
+
     update();
 
     ++frame_;
     ++frameCount_;
 
     if (time_.msecsTo(QTime::currentTime()) > 1000) {
-        label_.setText(" FPS: " + QString::number(frameCount_ / time_.secsTo(QTime::currentTime())));
+        emit updateFPS("FPS: " + QString::number(frameCount_ / time_.secsTo(QTime::currentTime())));
         time_ = QTime::currentTime();
         frameCount_ = 0;
     }
 }
 
 
-QMatrix4x4 CubeWidget::setMVPMatrix(const QVector3D& pos, const int frame){
+QMatrix4x4 CubeWidget::setMVPMatrix(const QVector3D& pos){
     QMatrix4x4 matrix;
-    matrix.perspective(60.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+    matrix.perspective(60.0f, 1.8f, 0.1f, 100.0f);
     matrix.translate(pos.x(), pos.y(), pos.z());
-    matrix.rotate(100.0f * frame / 60.0f, 0, 1, 0);
+    matrix.rotate(100.0f * frame_ / 60.0f, 0, 1, 0);
     return matrix;
 }
