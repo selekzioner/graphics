@@ -1,20 +1,27 @@
 #pragma once
 
-#include "plainglobject.h"
-#include "square.h"
-#include <QMatrix4x4>
+#include "plainobject.h"
+#include "vertex.h"
+#include <QOpenGLBuffer>
 
-
-class Cube final: public PlainGLObject
+class Cube: public PlainObject
 {
 public:
-    explicit Cube(GLfloat edgeLen, unsigned stepCount);
+    explicit Cube(GLfloat edgeLen, unsigned stepCount = 1);
 
     void initialize() override;
     void render(QOpenGLShaderProgram& program) override;
 
-    void setColor(const QColor& color) override;
+    ~Cube();
 
 private:
-    std::vector<Square> surfaces_;
+    std::vector<Vertex> vertices_;
+    std::vector<unsigned> indices_;
+
+    GLfloat edgeLen_;
+    unsigned stepCount_;
+
+    QOpenGLBuffer vertexBuffer_, indexBuffer_;
+
+    void setVertices(const QMatrix4x4& matrix);
 };
