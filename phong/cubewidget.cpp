@@ -221,7 +221,7 @@ void CubeWidget::paintGL()
     objectShader_.setUniformValue("viewPos", view_.getPos());
 
     QMatrix4x4 projection;
-    projection.perspective(80.0f, 1.3f, 0.1f, 10000.0f);
+    projection.perspective(80.0f, 1.3f, 0.1f, 1000000.0f);
     objectShader_.setUniformValue("projection", projection);
 
     const auto rows = static_cast<int>(cubes_.size() / std::sqrt(cubes_.size()));
@@ -237,7 +237,6 @@ void CubeWidget::paintGL()
             cubes_[i * rows + j]->render(objectShader_);
         }
     }
-
 
     lighterShader_.bind();
     if (pointLight_.isEnabled) {
@@ -260,7 +259,6 @@ void CubeWidget::paintGL()
         lighterShader_.setUniformValue("matrix", projection * view_.getViewMatrix() * projectorMatrix);
         projectorLight_.render(lighterShader_);
     }
-
 
     update();
 
