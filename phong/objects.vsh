@@ -76,9 +76,33 @@ vec4 point(vec3 fragPos, vec3 normal)
 }
 
 
-void setProjectorLight(vec3 fragPos, vec3 normal)
+vec4 projector(vec3 fragPos, vec3 normal)
 {
+    /* diffuse */
+    vec3 lightDir = normalize(projectorPos - fragPos);
+    float diff = kd * max(dot(normal, lightDir), 0.f);
+    vec4 diffuse = diff * projectorColor;
 
+    /* specular */
+    vec3 viewDir = normalize(viewPos - fragPos);
+    vec3 reflectDir = reflect(-lightDir, normal);
+
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 2);
+    vec4 specular = ks * spec * projectorColor;
+
+    float outerCutOff = 55, cutOff = 25;
+
+    float theta = dot(lightDir, normalize(-lightDir));
+    float epsilon = (cutOff - outerCutOff);
+    float intensity = clamp((theta - outerCutOff) / epsilon, 0.0, 1.0);
+    diffuse  *= intensity;
+    specular *= intensity;
+
+    float lightDistance = abs((projectorPos.x - fragPos.x)*(projectorPos.x - fragPos.x) +
+                              (projectorPos.y - fragPos.y)*(projectorPos.y - fragPos.y) +
+                              (projectorPos.z - fragPos.z)*(projectorPos.z - fragPos.z)) / 300;
+
+    return (diffuse + specular) / lightDistance;
 }
 
 
@@ -88,6 +112,6 @@ void main()
     vec3 normal = normalize(mat3(transpose(inverse(model))) * normAttr);
 
     col = (isAmbient * ambient() + isPoint * point(fragPos, normal)
-           + isDirected * directed(fragPos, normal)) * objectColor;
+           + isDirected * directed(fragPos, normal) + isProjector * projector(fragPos, normal)) * objectColor;
     gl_Position = projection * view * model * vec4(posAttr, 1.0f);
 }

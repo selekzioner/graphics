@@ -149,6 +149,10 @@ void CubeWidget::initializeGL()
     pointLight_.setColor( { 255, 255, 0 } );
     pointLight_.initialize();
 
+    projectorLight_.setPos( { 0.f, 10.f, -30.f } );
+    projectorLight_.setColor( { 0, 0, 255 } );
+    projectorLight_.initialize();
+
     initializeOpenGLFunctions();
     initShaders();
     initCubes();
@@ -209,6 +213,10 @@ void CubeWidget::paintGL()
     objectShader_.setUniformValue("directedPos", directedLight_.getPos());
     objectShader_.setUniformValue("isDirected", directedLight_.isEnabled);
 
+    objectShader_.setUniformValue("projectorColor", projectorLight_.getColor());
+    objectShader_.setUniformValue("projectorPos", projectorLight_.getPos());
+    objectShader_.setUniformValue("isProjector", projectorLight_.isEnabled);
+
     objectShader_.setUniformValue("view", view_.getViewMatrix());
     objectShader_.setUniformValue("viewPos", view_.getPos());
 
@@ -244,6 +252,13 @@ void CubeWidget::paintGL()
         directedMatrix.translate(directedLight_.getPos());
         lighterShader_.setUniformValue("matrix", projection * view_.getViewMatrix() * directedMatrix);
         directedLight_.render(lighterShader_);
+    }
+
+    if (projectorLight_.isEnabled) {
+        QMatrix4x4 projectorMatrix;
+        projectorMatrix.translate(projectorLight_.getPos());
+        lighterShader_.setUniformValue("matrix", projection * view_.getViewMatrix() * projectorMatrix);
+        projectorLight_.render(lighterShader_);
     }
 
 
