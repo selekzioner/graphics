@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>sphere.vsh</file>
+        <file>sphere.fsh</file>
+        <file>lighter.vsh</file>
+        <file>lighter.fsh</file>
+    </qresource>
+</RCC>
