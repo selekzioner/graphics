@@ -17,6 +17,6 @@ public:
   LightColor getColor() const;
 
 private:
-  QVector3D pos_{-10.f, 0.f, 20.f};
+  QVector3D pos_{-10.f, 0.f, 5.f};
   LightColor col_{{0, 0, 255}, {255, 255, 100}, {255, 255, 255}};
 };

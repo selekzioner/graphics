@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>Earth_Albedo.jpg</file>
         <file>Earth_NormalMap.jpg</file>
+        <file>Sun.jpg</file>
     </qresource>
 </RCC>

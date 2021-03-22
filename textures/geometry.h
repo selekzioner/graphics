@@ -7,6 +7,7 @@ struct Vertex
 {
   QVector3D pos, normal;
   QVector2D texCoord;
+  QVector3D tangent, bitangent;
 };
 
 class Sphere : protected QOpenGLFunctions

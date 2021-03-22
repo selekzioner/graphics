@@ -18,7 +18,6 @@ protected:
   void paintGL() override;
 
   void keyPressEvent(QKeyEvent* event) override;
-  void mousePressEvent(QMouseEvent* event) override;
   void wheelEvent(QWheelEvent* event) override;
 
 private:
@@ -32,7 +31,7 @@ private:
   Sphere earth_{ 0.7f, 100, 100 };
   Lighter lighter_;
   Camera camera_;
-  std::unique_ptr<QOpenGLTexture> texture_, normalMap_;
+  std::unique_ptr<QOpenGLTexture> earthTex_, earthNormalMap_, sunTex_;
 
   unsigned frame_ = 0;
 };
