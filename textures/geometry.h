@@ -7,7 +7,6 @@ struct Vertex
 {
   QVector3D pos, normal;
   QVector2D texCoord;
-  QVector3D tangent, bitangent;
 };
 
 class Sphere : protected QOpenGLFunctions
@@ -29,4 +28,9 @@ private:
   QOpenGLBuffer vertexBuf_, indexBuf_;
   std::vector<Vertex> vertices_;
   std::vector<GLuint> indices_;
+};
+
+class SphereMeshProducer {
+  static std::vector<Vertex>& initVertices(std::vector<Vertex>& vertices);
+  static std::vector<GLuint>& initIndices(std::vector<GLuint>& indices);
 };

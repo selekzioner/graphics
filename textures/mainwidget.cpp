@@ -103,6 +103,12 @@ void MainWidget::initTextures()
 
   earthNormalMap_.reset(new QOpenGLTexture(QImage(":/Earth_NormalMap.jpg")));
   sunTex_->setMinificationFilter(QOpenGLTexture::Nearest);
+
+  marsTex_.reset(new QOpenGLTexture(QImage(":/Mars.jpg")));
+  marsTex_->setMinificationFilter(QOpenGLTexture::Nearest);
+
+  marsNormalMap_.reset(new QOpenGLTexture(QImage(":/Mars_NormalMap.jpg")));
+  marsNormalMap_->setMinificationFilter(QOpenGLTexture::Nearest);
 }
 
 
@@ -111,8 +117,8 @@ void MainWidget::renderSphere(const QMatrix4x4& projection)
   sShader_.bind();
 
   QMatrix4x4 sModel;
-  sModel.translate({ 0.f, 0.f, -4.f});
-  sModel.rotate(frame_ / 2.f, 0, 1);
+  sModel.translate(earthPos_);
+  sModel.rotate(frame_ / 3.f, 0, 1);
   sModel.rotate(-90.f, 1, 0, 0);
 
   sShader_.setUniformValue("model", sModel);
@@ -121,9 +127,11 @@ void MainWidget::renderSphere(const QMatrix4x4& projection)
   sShader_.setUniformValue("viewPos", camera_.getPos());
   sShader_.setUniformValue("projection", projection);
 
+  sShader_.setUniformValue("texture", 0);
   glActiveTexture(GL_TEXTURE0);
   earthTex_->bind();
 
+  sShader_.setUniformValue("normalMap", 1);
   glActiveTexture(GL_TEXTURE1);
   earthNormalMap_->bind();
 
@@ -145,6 +153,8 @@ void MainWidget::renderLighter(const QMatrix4x4& projection)
   lModel.rotate(-90.f, 1, 0, 0);
 
   lShader_.setUniformValue("matrix", projection * camera_.getViewMatrix() * lModel);
+
+  lShader_.setUniformValue("texture", 0);
   glActiveTexture(GL_TEXTURE0);
   sunTex_->bind();
 

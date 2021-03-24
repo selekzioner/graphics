@@ -28,10 +28,14 @@ private:
   void renderLighter(const QMatrix4x4& projection);
 
   QOpenGLShaderProgram sShader_, lShader_;
-  Sphere earth_{ 0.7f, 100, 100 };
+
+  Sphere earth_{ 0.5f, 100, 100 }, mars_{0.2f, 10, 100};
+  QVector3D earthPos_{ 0.f, 0.f, -4.f};
+
   Lighter lighter_;
   Camera camera_;
-  std::unique_ptr<QOpenGLTexture> earthTex_, earthNormalMap_, sunTex_;
+  std::unique_ptr<QOpenGLTexture> earthTex_, earthNormalMap_,
+                                  marsTex_,  marsNormalMap_, sunTex_;
 
   unsigned frame_ = 0;
 };
